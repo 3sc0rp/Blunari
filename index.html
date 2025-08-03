@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blunari - Your menu should think for you</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-navy: #0A1A2F;
+            --accent-start: #00D4FF;
+            --accent-end: #005EFF;
+            --white: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --gradient-accent: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+            --glow-blue: 0 0 30px rgba(0, 196, 204, 0.4);
+            --glow-purple: 0 0 30px rgba(0, 125, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000000;
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.65), rgba(30, 30, 30, 0.65));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85));
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+      
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-subtitle {
+    display: block !important;
+
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            margin-top: -2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--white);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--gradient-accent);
+            color: var(--white);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-blue);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow-purple);
+        }
+
+        /* Mobile Menu */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+            padding: 8px;
+        }
+
+        .mobile-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            transition: 0.3s;
+            border-radius: 1px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero-bg-orb-1 {
+            position: absolute;
+            top: 10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 196, 204, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float-orb 20s ease-in-out infinite;
+        }
+
+        .hero-bg-orb-2 {
+            position: absolute;
+            bottom: 10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 125, 255, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float-orb 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float-orb {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.04em;
+            color: var(--white);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .trust-banner {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero-cta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: var(--white);
+            border: none;
+            box-shadow: var(--glow-blue);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow-purple);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-note {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .testimonial-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            max-width: 600px;
+            margin: 2rem auto 0;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .testimonial-quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--white);
+            opacity: 0;
+            animation: fadeInOut 9s ease-in-out infinite;
+        }
+
+        .testimonial-quote.active {
+            opacity: 1;
+        }
+
+        .testimonial-quote:nth-child(1) { animation-delay: 0s; }
+        .testimonial-quote:nth-child(2) { animation-delay: 3s; }
+        .testimonial-quote:nth-child(3) { animation-delay: 6s; }
+
+        @keyframes fadeInOut {
+            0%, 20% { opacity: 1; }
+            25%, 100% { opacity: 0; }
+        }
+
+        .testimonial-author {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Industry Icons Section */
+        .industry-icons {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .industry-icons h3 {
+            font-size: 1.25rem;
+            color: var(--white);
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            justify-items: center;
+        }
+
+        .brand-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 140px;
+            height: 160px;
+            padding: 1.5rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .brand-card:hover,
+        .brand-card:focus-visible {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            box-shadow: var(--glow-blue);
+        }
+
+        .brand-card:focus-visible {
+            outline: 2px solid var(--accent-start);
+            outline-offset: 4px;
+        }
+
+        .brand-card svg {
+            width: 48px;
+            height: 48px;
+            fill: var(--white);
+            transition: transform 0.3s ease;
+        }
+
+        .brand-card:hover svg,
+        .brand-card:focus-visible svg {
+            transform: scale(1.05);
+        }
+
+        .brand-card span {
+            font-size: 0.9rem;
+            color: var(--white);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Solutions Section */
+        .solutions {
+            padding: 8rem 2rem;
+        }
+
+        .solutions-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            color: var(--white);
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .solution-card {
+    flex: 1 1 100%;
+    height: 100%;
+
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            transform: translateY(40px);
+            width: 100%;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* First row - 3 cards spanning 2 columns each */
+        .solutions-grid .solution-card:nth-child(1) { grid-column: span 2; }
+        .solutions-grid .solution-card:nth-child(2) { grid-column: span 2; }
+        .solutions-grid .solution-card:nth-child(3) { grid-column: span 2; }
+
+        /* Second row - 2 cards in the middle, with empty columns on sides */
+        .solutions-grid .solution-card:nth-child(4) { 
+            grid-column: 2 / 4; /* starts at column 2, spans 2 columns */
+        }
+        .solutions-grid .solution-card:nth-child(5) { 
+            grid-column: 4 / 6; /* starts at column 4, spans 2 columns */
+        }
+
+        /* Responsive breakpoints */
+        @media (max-width: 1200px) {
+            .solutions-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .solutions-grid .solution-card:nth-child(1) { grid-column: span 2; }
+            .solutions-grid .solution-card:nth-child(2) { grid-column: span 2; }
+            .solutions-grid .solution-card:nth-child(3) { grid-column: span 2; }
+            .solutions-grid .solution-card:nth-child(4) { grid-column: span 2; }
+            .solutions-grid .solution-card:nth-child(5) { 
+                grid-column: 2 / 4; /* centered in 4-column grid */
+            }
+        }
+
+        @media (max-width: 900px) {
+            .solutions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .solutions-grid .solution-card:nth-child(1) { grid-column: span 1; }
+            .solutions-grid .solution-card:nth-child(2) { grid-column: span 1; }
+            .solutions-grid .solution-card:nth-child(3) { grid-column: span 1; }
+            .solutions-grid .solution-card:nth-child(4) { grid-column: span 1; }
+            .solutions-grid .solution-card:nth-child(5) { grid-column: span 2; }
+        }
+
+        @media (max-width: 768px) {
+
+    .solutions-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .solution-card {
+        width: 90%;
+        max-width: 400px;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem !important;
+    }
+
+            .solutions-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .solutions-grid .solution-card {
+    flex: 1 1 100%;
+    height: 100%;
+
+                grid-column: span 1;
+                min-height: 280px;
+            }
+
+            .solution-card {
+    flex: 1 1 100%;
+    height: 100%;
+
+                padding: 2rem;
+            }
+        }
+
+        .solution-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--glow-blue);
+            border-color: rgba(0, 196, 204, 0.3);
+        }
+
+        .solution-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-accent);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            box-shadow: var(--glow-blue);
+        }
+
+        .solution-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--white);
+        }
+
+        .solution-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .solution-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .features .section-header h2 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .features .section-header h2 .highlight-blunari {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .features .section-header h2 .highlight-blunari::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 8px;
+            background-image: 
+                linear-gradient(90deg, transparent 0%, var(--accent-start) 20%, var(--accent-end) 80%, transparent 100%),
+                linear-gradient(90deg, transparent 0%, var(--accent-start) 25%, var(--accent-end) 75%, transparent 100%);
+            background-size: 100% 3px, 100% 3px;
+            background-position: 0 0, 0 5px;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            filter: blur(0.5px);
+        }
+
+        .feature-item {
+            max-width: 1400px;
+            margin: 0 auto 8rem auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .feature-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .feature-item:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .feature-content h3 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .feature-content p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .feature-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .metric-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--glow-blue);
+        }
+
+        .metric-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .feature-visual {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .feature-visual:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--glow-blue);
+        }
+
+        .feature-visual-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-accent);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            box-shadow: var(--glow-blue);
+        }
+
+        .feature-visual-icon svg {
+            width: 50px;
+            height: 50px;
+            fill: var(--white);
+        }
+
+        .feature-visual h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .feature-visual p {
+            color: var(--text-secondary);
+        }
+
+        /* Testimonial Section */
+        .testimonial {
+            padding: 8rem 2rem;
+            text-align: center;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .testimonial-card .testimonial-quote {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 2rem;
+            color: var(--white);
+            opacity: 1;
+            animation: none;
+        }
+
+        .testimonial-card .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            box-shadow: var(--glow-blue);
+        }
+
+        .author-info h4 {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            padding: 8rem 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .final-cta h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            letter-spacing: -0.03em;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: var(--gradient-accent);
+            color: var(--white);
+            padding: 16px 32px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--glow-blue);
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--glow-purple);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-badges {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-badge {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--glass-border);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .footer-contact {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .footer-contact a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact a:hover {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .social-icon:hover {
+            background: var(--gradient-accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--glow-blue);
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+
+    .solutions-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .solution-card {
+        width: 90%;
+        max-width: 400px;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem !important;
+    }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(10, 26, 47, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 3rem;
+                gap: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                gap: 0.5rem;
+            }
+
+            .logo-title {
+                font-size: 1.25rem;
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .hero-cta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+
+                flex-direction: row;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            .btn {
+                width: auto;
+                text-align: center;
+                padding: 10px 16px;
+                font-size: 0.85rem;
+                flex: 1;
+                max-width: 140px;
+            }
+
+            .icons-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-item {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .feature-item:nth-child(even) {
+                direction: ltr;
+            }
+
+            .feature-metrics {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                max-width: 300px;
+                margin: 2rem auto 0;
+            }
+
+            .metric-item {
+                padding: 1.25rem;
+                min-height: 100px;
+            }
+
+            .feature-visual {
+                min-height: 300px;
+                padding: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .testimonial-card {
+                padding: 2rem;
+            }
+
+            .testimonial-card .testimonial-author {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+    .btn {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        width: auto;
+        max-width: 120px;
+    }
+    .hero-cta {
+        flex-wrap: nowrap;
+        gap: 0.25rem;
+    }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .solution-card {
+    flex: 1 1 100%;
+    height: 100%;
+
+                padding: 2rem;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+
+            .icons-grid {
+                grid-template-columns: 1fr;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+    <img src="https://raw.githubusercontent.com/3sc0rp/Blunari/refs/heads/main/logo-bg.png" alt="Blunari Logo" width="48" height="48" />
+</div>
+                <div class="logo-text">
+                    <div class="logo-title">BLUNARI</div>
+                    <div class="logo-subtitle">Restaurant & Bar Solutions</div>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#solutions" class="nav-link">Solutions</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#demo" class="nav-cta">Get Started</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg-orb-1"></div>
+        <div class="hero-bg-orb-2"></div>
+        
+        <div class="hero-container">
+            <h1>Elevate Hospitality.<br>Powered by Precision.</h1>
+            <p>Blunari drives efficiency, guest satisfaction, and profit by powering modern hospitality through technology that works.</p>
+
+            <div class="hero-cta">
+                <a href="#demo" class="btn btn-primary">Request Demo</a>
+                <a href="#solutions" class="btn btn-secondary">View Solutions</a>
+            </div>
+
+            <p class="cta-note">Takes 30 seconds. No tech setup required.</p>
+
+            <div class="testimonial-preview">
+                <div class="testimonial-quote">"Blunari transformed our operations across 15 locations. Revenue up 35% in just 3 months."</div>
+                <div class="testimonial-quote">"The AI menu optimization alone saved us $50,000 annually in food waste."</div>
+                <div class="testimonial-quote">"Finally, a platform that actually delivers on its ROI promises. Game changer."</div>
+                <div class="testimonial-author">— Leading Restaurant Operators</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industry Icons Section -->
+    <section class="industry-icons" aria-labelledby="trusted-brands-heading">
+        <h3 id="trusted-brands-heading">Trusted by Leading Hospitality Brands</h3>
+        <div class="icons-grid">
+            <div class="brand-card" tabindex="0" aria-label="Restaurants">
+                <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <path d="M32 8L36 20H48L39 28L42 40L32 34L22 40L25 28L16 20H28L32 8Z"/>
+                    <circle cx="32" cy="48" r="6"/>
+                    <rect x="26" y="54" width="12" height="2"/>
+                </svg>
+                <span>Restaurants</span>
+            </div>
+            
+            <div class="brand-card" tabindex="0" aria-label="Wine Bars">
+                <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <path d="M20 12C20 8 24 4 32 4S44 8 44 12V20C44 24 40 28 32 28S20 24 20 20V12Z"/>
+                    <rect x="30" y="28" width="4" height="20"/>
+                    <ellipse cx="32" cy="50" rx="8" ry="4"/>
+                    <path d="M24 50Q32 54 40 50"/>
+                </svg>
+                <span>Wine Bars</span>
+            </div>
+            
+            <div class="brand-card" tabindex="0" aria-label="Coffee Shops">
+                <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <rect x="24" y="20" width="16" height="32" rx="2"/>
+                    <rect x="28" y="12" width="8" height="8" rx="4"/>
+                    <circle cx="28" cy="30" r="2"/>
+                    <circle cx="36" cy="30" r="2"/>
+                    <path d="M28 38Q32 42 36 38"/>
+                </svg>
+                <span>Coffee Shops</span>
+            </div>
+            
+            <div class="brand-card" tabindex="0" aria-label="Lounges">
+                <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <rect x="12" y="24" width="40" height="24" rx="4"/>
+                    <rect x="16" y="28" width="8" height="4"/>
+                    <rect x="28" y="28" width="8" height="4"/>
+                    <rect x="40" y="28" width="8" height="4"/>
+                    <circle cx="20" cy="40" r="3"/>
+                    <circle cx="32" cy="40" r="3"/>
+                    <circle cx="44" cy="40" r="3"/>
+                </svg>
+                <span>Lounges</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" id="solutions">
+        <div class="solutions-container">
+            <div class="section-header">
+                <h2>Enterprise AI Solutions</h2>
+                <p>Comprehensive suite of AI-powered tools designed to optimize every aspect of your hospitality operations with measurable ROI.</p>
+            </div>
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>MenuIQ™</h3>
+                    <p>AI-driven menu optimization platform that analyzes customer preferences, seasonal trends, and profit margins to maximize revenue and reduce food waste by up to 40%.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M21 11.5L12.5 3h-9v9L12 21.5l9-9zm-13.5-4A1.5 1.5 0 118 6a1.5 1.5 0 01-1.5 1.5z"/>
+                        </svg>
+                    </div>
+                    <h3>PricePilot™</h3>
+                    <p>Dynamic pricing engine powered by real-time market data, competitor analysis, and demand forecasting to optimize profit margins while maintaining competitive positioning.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M3 3v18h18M7 12l4-4 4 4 4-4"/>
+                        </svg>
+                    </div>
+                    <h3>Forecast Fork™</h3>
+                    <p>Predictive analytics platform for inventory management, staff scheduling, and demand planning. Reduce operational costs by 25% through intelligent forecasting.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v6h-2zm0 8h2v2h-2z"/>
+                        </svg>
+                    </div>
+                    <h3>SentiScoop™</h3>
+                    <p>Advanced sentiment analysis tool that monitors guest feedback across all platforms, providing real-time insights to improve service quality and customer satisfaction.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 1a5 5 0 00-5 5v4a5 5 0 004 4.9V21l2-1 2 1v-6.1a5 5 0 004-4.9V6a5 5 0 00-5-5z"/>
+                        </svg>
+                    </div>
+                    <h3>SpeakServe™</h3>
+                    <p>Voice-to-order AI solution that streamlines ordering processes for bar and restaurant staff, reducing errors and improving speed of service by 60%.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>Why Enterprise Customers Choose <span class="highlight-blunari">Blunari</span></h2>
+            <p>Proven results across hundreds of locations with enterprise-grade reliability, security, and support.</p>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-content">
+                <h3>Proven ROI in 90 Days</h3>
+                <p>Our AI-driven solutions deliver measurable results quickly. MenuIQ™ customers see average revenue increases of 35% within the first quarter, while PricePilot™ optimizes pricing strategies that boost profit margins by up to 42%.</p>
+                <div class="feature-metrics">
+                    <div class="metric-item">
+                        <div class="metric-number">35%</div>
+                        <div class="metric-label">Revenue Growth</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">90</div>
+                        <div class="metric-label">Day ROI</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">42%</div>
+                        <div class="metric-label">Margin Improvement</div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-visual">
+                <div class="feature-visual-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 3v18h18M7 12l4-4 4 4 4-4"/>
+                    </svg>
+                </div>
+                <h4>Real-Time Analytics</h4>
+                <p>Live dashboards and automated reporting provide instant visibility into performance metrics and ROI tracking.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-content">
+                <h3>Enterprise-Grade Security</h3>
+                <p>Built with security-first architecture, Blunari meets the highest enterprise standards including SOC 2 Type II compliance, end-to-end encryption, and seamless integration with existing enterprise systems.</p>
+                <div class="feature-metrics">
+                    <div class="metric-item">
+                        <div class="metric-number">99.9%</div>
+                        <div class="metric-label">Uptime SLA</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">SOC 2</div>
+                        <div class="metric-label">Compliance</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">24/7</div>
+                        <div class="metric-label">Support</div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-visual">
+                <div class="feature-visual-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h4>Advanced Security</h4>
+                <p>Military-grade encryption, secure APIs, and comprehensive audit trails ensure your data remains protected.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial" id="about">
+        <div class="testimonial-card">
+            <div class="testimonial-quote">
+                "Blunari's AI platform transformed our operations across 47 locations. The ROI was immediate, and the insights have fundamentally changed how we make business decisions."
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">CM</div>
+                <div class="author-info">
+                    <h4>Carlos Martinez</h4>
+                    <p>VP of Operations, Premium Restaurant Group</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta" id="demo">
+        <h2>Ready to Transform Your Operations?</h2>
+        <p>Join leading hospitality brands who trust Blunari to optimize their operations and drive measurable growth. Schedule a personalized demo to see the platform in action.</p>
+        <a href="#contact" class="cta-button">Let Me Show You</a>
+        <div class="cta-badges">
+            <span class="cta-badge">No credit card required</span>
+            <span class="cta-badge">Just 30 seconds</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Blunari</h3>
+                <p>Enterprise AI solutions for the hospitality industry. Transforming operations with intelligent automation, predictive analytics, and measurable results.</p>
+                <div class="footer-contact">
+                    <p>Enterprise Sales: <a href="mailto:hello@blunari.ai">hello@blunari.ai</a></p>
+                    <p>Phone: <a href="tel:+1-555-0123">+1 (555) 012-3456</a></p>
+                </div>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">📧</a>
+                    <a href="#" class="social-icon">💼</a>
+                    <a href="#" class="social-icon">📷</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Solutions</h4>
+                <ul class="footer-links">
+                    <li><a href="#">MenuIQ™</a></li>
+                    <li><a href="#">PricePilot™</a></li>
+                    <li><a href="#">Forecast Fork™</a></li>
+                    <li><a href="#">SentiScoop™</a></li>
+                    <li><a href="#">SpeakServe™</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">ROI Calculator</a></li>
+                    <li><a href="#">White Papers</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Leadership</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Partners</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Blunari, Inc. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        const header = document.getElementById('header');
+
+        mobileToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            
+            const spans = this.querySelectorAll('span');
+            if (navMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link, .nav-cta').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const spans = mobileToggle.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }, { passive: true });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = 80;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Testimonial rotation in hero
+        const testimonialQuotes = document.querySelectorAll('.testimonial-preview .testimonial-quote');
+        let currentQuote = 0;
+
+        function rotateTestimonials() {
+            if (testimonialQuotes.length === 0) return;
+            
+            testimonialQuotes.forEach(quote => quote.classList.remove('active'));
+            testimonialQuotes[currentQuote].classList.add('active');
+            currentQuote = (currentQuote + 1) % testimonialQuotes.length;
+        }
+
+        // Start rotation
+        if (testimonialQuotes.length > 0) {
+            testimonialQuotes[0].classList.add('active');
+            setInterval(rotateTestimonials, 3000);
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.solution-card, .feature-item, .testimonial-card');
+            animatedElements.forEach((element, index) => {
+                element.style.transitionDelay = `${index * 0.1}s`;
+                observer.observe(element);
+            });
+        });
+
+        // Enhanced button interactions
+        document.querySelectorAll('.cta-button, .nav-cta').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.02)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
