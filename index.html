@@ -47,13 +47,13 @@
             width: 100%;
             z-index: 1000;
             backdrop-filter: blur(20px);
-            background: rgba(10, 26, 47, 0.9);
-            border-bottom: 1px solid var(--glass-border);
+            background: linear-gradient(135deg, rgba(0, 196, 204, 0.15), rgba(0, 125, 255, 0.15));
+            border-bottom: 1px solid var(--accent-start);
             transition: all 0.3s ease;
         }
 
         .header.scrolled {
-            background: rgba(10, 26, 47, 0.95);
+            background: linear-gradient(135deg, rgba(0, 196, 204, 0.25), rgba(0, 125, 255, 0.25));
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
         }
 
@@ -239,9 +239,7 @@
             line-height: 1.1;
             margin-bottom: 2rem;
             letter-spacing: -0.04em;
-            background: linear-gradient(135deg, var(--white) 0%, var(--accent-start) 50%, var(--accent-end) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--white);
             animation: fadeInUp 1s ease-out;
         }
 
@@ -1022,12 +1020,6 @@
                 Takes 30 seconds. No tech setup required.
             </div>
             
-            <div class="testimonial-preview">
-                <div class="testimonial-quote">"Saved us 9 hours of manual updates every week." — Bar Manager</div>
-                <div class="testimonial-quote">"Rebuilt our menu layout in 10 seconds with MenuIQ™."</div>
-                <div class="testimonial-quote">"Guests are ordering more — we actually track it."</div>
-                <div class="testimonial-author">Real customer feedback</div>
-            </div>
         </div>
     </section>
 
