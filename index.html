@@ -56,7 +56,6 @@
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85));
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
         }
-
         .nav-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -66,7 +65,7 @@
             align-items: center;
             height: 80px;
         }
-
+      
         .logo {
             display: flex;
             align-items: center;
@@ -469,7 +468,6 @@
             fill: var(--white);
             transition: transform 0.3s ease;
         }
-
         .brand-card:hover svg,
         .brand-card:focus-visible svg {
             transform: scale(1.05);
@@ -983,6 +981,19 @@
                 font-size: 0.9rem;
             }
 
+            .hero h1 {
+                font-size: 2.8rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero p {
+                margin-bottom: 2rem;
+            }
+
+            .hero-cta {
+                margin-top: 2rem;
+            }
+
             .cta-button {
                 width: 100%;
                 display: block;
@@ -1018,6 +1029,10 @@
                 padding: 1.25rem;
             }
 
+            .metric-item {
+                padding: 1.25rem;
+            }
+
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
@@ -1039,6 +1054,16 @@
 
             .logo {
                 gap: 0.5rem;
+                display: none;
+            }
+
+            .logo-title {
+                font-size: 1.25rem;
+            }
+
+            .logo-text {
+                flex-direction: row;
+                align-items: center;
             }
 
             .testimonial-preview {
@@ -1146,6 +1171,15 @@
             </div>
 
             <p class="cta-note">Takes 30 seconds. No tech setup required.</p>
+
+
+                <a href="#demo" class="cta-button">Let Me Show You</a>
+            </div>
+            
+            <div class="hero-microcopy">
+                Takes 30 seconds. No tech setup required.
+            </div>
+            
 
         </div>
     </section>
