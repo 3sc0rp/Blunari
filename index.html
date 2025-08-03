@@ -41,21 +41,23 @@
         }
 
         /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            backdrop-filter: blur(20px);
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.65), rgba(30, 30, 30, 0.65));
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.65), rgba(30, 30, 30, 0.65));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
 
-        .header.scrolled {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85));
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-        }
+.header.scrolled {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85));
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+}
+
 
         .nav-container {
             max-width: 1400px;
